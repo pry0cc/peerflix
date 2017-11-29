@@ -1,0 +1,7 @@
+{"song_title":"Lemon", "artist":"N.E.R.D", "album":"Lemon"}
+{"song_title":"Blessings", "artist":"Chance The Rapper", "album":"Coloring Book"}
+{"song_title":"Neighbors", "artist":"J. Cole", "album":"4 Your Eyez Only"}
+{"song_title":"Everybody", "artist":"Logic", "album":"Everybody"}
+{"song_title":"Wild Thoughts", "artist":"Rihanna", "album":"Wild Thoughts"}
+
+

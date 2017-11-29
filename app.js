@@ -43,6 +43,7 @@ var argv = rc('peerflix', {}, optimist
   .alias('h', 'hostname').describe('h', 'host name or IP to bind the server to')
   .alias('e', 'peer').describe('e', 'add peer by ip:port')
   .alias('x', 'peer-port').describe('x', 'set peer listening port')
+  .alias('F', 'file').describe('F', 'set file to begin streaming')
   .alias('d', 'not-on-top').describe('d', 'do not float video on top').boolean('d')
   .describe('on-downloaded', 'script to call when file is 100% downloaded')
   .describe('on-listening', 'script to call when server goes live')
@@ -148,31 +149,16 @@ var ontorrent = function (torrent) {
   }
 
   if (argv.list) {
-    var interactive = process.stdout.isTTY && process.stdin.isTTY && !!process.stdin.setRawMode
-
     var onready = function () {
-      if (interactive) {
-        inquirer.prompt([{
-          type: 'list',
-          name: 'file',
-          message: 'Choose one file',
-          choices: engine.files.map(function (file, i) {
-            return {
-              name: file.name + ' : ' + bytes(file.length),
-              value: i
+          engine.files.map(function (file, i) {
+            if ((file.name.indexOf(argv["file"]) !== -1) && 
+              ((file.name.indexOf(".mp3") !== -1) || (file.name.indexOf(".flac") !== -1))
+              ) {
+              argv.index = i
             }
           })
-        }]).then(function (answers) {
-          argv.index = answers.file
           delete argv.list
           ontorrent(torrent)
-        })
-      } else {
-        engine.files.forEach(function (file, i, files) {
-          clivas.line('{3+bold:' + i + '} : {magenta:' + file.name + '} : {blue:' + bytes(file.length) + '}')
-        })
-        process.exit(0)
-      }
     }
 
     if (engine.torrent) onready()
